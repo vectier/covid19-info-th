@@ -42,6 +42,10 @@ const editDistance = (s1, s2) => {
   return costs[s2.length]
 }
 
+exports.hasData = (province) => {
+  return provinces.locale_th.includes(province)
+}
+
 exports.find = (input) => {
   if (cache.has(input)) return cache.get(input)
 

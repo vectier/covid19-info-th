@@ -36,10 +36,17 @@ const handleEvent = (event) => {
 
   if (Bed.hasRequested(userId)) {
     const province = provinces.find(message)
-    console.log(province)
+    
+    if (!provinces.hasData(province)) {
+      return line.replyMessage(replyToken, [
+        { type: 'text', text: `ไม่พบข้อมูลของจังหวัด ${province}` },
+        { type: 'text', text: `สามารถเป็นส่วนหนึ่งในการพัฒนาได้ที่ https://github.com/Vectier/covid19-info-th` }
+      ]) 
+    }
+
     const result = Bed.find(userId, province)
     const replyMessage = 'คุณสามารถติดต่อได้ที่\n'.concat(result.join('\n'))
-
+    
     return line.pushMessage(userId, [
       { type: 'text', text: `จังหวัด ${province}` },
       { type: 'text', text: replyMessage }
