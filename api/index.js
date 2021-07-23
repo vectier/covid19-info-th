@@ -45,7 +45,7 @@ const handleEvent = (event) => {
     }
 
     const result = Bed.find(userId, province)
-    const replyMessage = 'คุณสามารถติดต่อได้ที่\n'.concat(result.join('\n'))
+    const replyMessage = 'คุณสามารถติดต่อได้ที่\n\n'.concat(result.join('\n\n'))
     
     return line.pushMessage(userId, [
       { type: 'text', text: `จังหวัด ${province}` },
