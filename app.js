@@ -47,13 +47,20 @@ const handleEvent = (event) => {
   }
 }
 
+app.all('*', (req, res) => {
+  res.json({
+    name: 'covid19-th-info',
+    repo: 'https://github.com/Vectier/covid19-info-th'
+  })
+})
+
 if (mode === 'production') {
-  app.listen(port, () => console.log(`this app listening on port ${port}`))
+  app.listen(port, () => console.log(`[PROD] this app listening on port ${port}`))
 } else {
   https.createServer({
     key: fs.readFileSync('key.pem'),
     cert: fs.readFileSync('cert.pem')
   }, app).listen(port, () => {
-    console.log(`this app listening on port ${port}`)
+    console.log(`[DEV] this app listening on port ${port}`)
   })
 }
