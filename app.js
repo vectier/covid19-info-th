@@ -1,8 +1,10 @@
-require('dotenv').config()
-const https = require('https')
-const fs = require('fs')
-const app = require('express')()
+const https   = require('https')
+const fs      = require('fs')
+const app     = require('express')()
+
 const [line, lineMiddleware] = require('./line')
+
+const Bed     = require('./commands/bed')
 
 app.post('/webhook', lineMiddleware, (req, res) => {
   Promise
@@ -14,19 +16,32 @@ app.post('/webhook', lineMiddleware, (req, res) => {
     })
 })
 
+const reply = (replyToken, message) => line.replyMessage(replyToken, { type: 'text', text: message })
+
 const handleEvent = (event) => {
   if (event.type !== 'message' || event.message.type !== 'text') {
     return Promise.resolve(null)
   }
 
+  const replyToken = event.replyToken
   const message = event.message.text
+  const userId = event.source.userId
 
-  // TODO: command
+  if (message == 'หาเตียง') {
+    !Bed.hasRequested(userId) && Bed.request(userId, replyToken)
+    return reply(replyToken, 'กรุณากรอกจังหวัดที่คุณอยู่')
+  }
+  
+  if (Bed.hasRequested(userId)) {
+    const result = Bed.find(userId, message)
 
-  return line.replyMessage(event.replyToken, {
-    type: 'text',
-    text: message
-  })
+    const replyMessage = 'คุณสามารถติดต่อได้ที่\n'.concat(result.join('\n'))
+
+    return line.pushMessage(userId, [
+      { type: 'text', text: `จังหวัด ${message}` },
+      { type: 'text', text: replyMessage }
+    ])
+  }
 }
 
 // https.createServer({
