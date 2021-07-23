@@ -10,7 +10,11 @@ exports.request = (userId) => {
   !this.hasRequested(userId) && cache.set(userId, new Date())
 }
 
-exports.find = (userId, location) => {
+exports.find = (userId, province) => {
   cache.delete(userId)
-  return bed[location]
+  return bed[province]
+}
+
+exports.hasData = (province) => {
+  return typeof bed[province] !== 'undefined'
 }
