@@ -19,7 +19,11 @@ Currently in development and deploy on vercel for testing.
 > ในอนาคตจะรวบรวมข้อมูลที่นอกเหนือจากเบอร์ติดต่อจัดหาเตียงผู้ป่วยเพื่อรวบรวมไว้ในที่เดียว   
 > We will collect information other than the patient bed contact numbers to collect them in one place soon.
 
+## Features
+- ค้นหาเบอร์ติดต่อจัดหาเตียงผู้ป่วยตามจังหวัด (Search for a contact number for providing patient beds by province)
+- แสดงยอดสถิติประจำวัน (Show daily statistics)
+
 ## Preview
-| ตัวอย่าง linebot | ตัวอย่าง feature text predict |
-| - | - |
-| <img width="250" src="https://i.imgur.com/WHnoYVI.gif" alt="covid19-info-th prototype preview" alt="" /> | <img width="300" src="https://user-images.githubusercontent.com/17198802/126859978-f52ddf49-057f-46ee-843e-819c0316a193.png" alt="" /><br /><p align="center"><i>(รีบพิมพ์แค่ไหนก็ได้ข้อมูล)</i></p>  |
+| ตัวอย่าง linebot | ตัวอย่าง feature text predict | ตัวอย่างข้อมูลสถิติ |
+| - | - | - |
+| <img width="250" src="https://i.imgur.com/WHnoYVI.gif" alt="covid19-info-th prototype preview" alt="" /> | <img width="280" src="https://user-images.githubusercontent.com/17198802/126859978-f52ddf49-057f-46ee-843e-819c0316a193.png" alt="" /><br /><p align="center"><i>(รีบพิมพ์แค่ไหนก็ได้ข้อมูล)</i></p>  | <img width="300" src="https://i.imgur.com/DhkIlBZ.jpeg" alt="covid19-info-th prototype preview" alt="" /> |
