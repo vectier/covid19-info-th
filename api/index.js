@@ -9,7 +9,7 @@ const line      = require('../utils/line')
 const provinces = require('../utils/provinces')
 
 const Bed       = require('../commands/bed')
-const Case      = require('../commands/cases')
+const Case      = require('../commands/case')
 
 app.post('/api/webhook', line.middleware, (req, res) => {
   Promise
@@ -32,7 +32,6 @@ const handleEvent = (event) => {
 
   // Open command ticket
   if (message == 'หาเตียง') return Bed.request(userId, replyToken)
-
   if (message == 'สถิติ') return Case.request(replyToken)
 
   const province = provinces.find(message)
