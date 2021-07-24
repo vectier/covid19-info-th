@@ -1,20 +1,27 @@
 const bed = require('../data/bed.json')
+const line = require('../utils/line')
 
-const cache = new Map()
+const requestMap = new Map()
 
-exports.hasRequested = (userId) => {
-  return cache.has(userId)
+const hasRequested = (userId) => requestMap.has(userId)
+const find = (province) => bed[province]
+
+exports.request = (userId, replyToken) => {
+  if (!hasRequested(userId)) {
+    requestMap.set(userId, new Date())
+    return line.client.replyMessage(replyToken, { type: 'text', text: 'กรุณากรอกจังหวัดที่คุณอยู่' })
+  }
 }
 
-exports.request = (userId) => {
-  !this.hasRequested(userId) && cache.set(userId, new Date())
-}
+exports.handler = (userId, province) => {
+  if (hasRequested(userId)) {
+    const data = find(province).join('\n\n')
+    const reply = '> คุณสามารถติดต่อได้ที่ <\n\n'.concat(data)
 
-exports.find = (userId, province) => {
-  cache.delete(userId)
-  return bed[province]
-}
-
-exports.hasData = (province) => {
-  return typeof bed[province] !== 'undefined'
+    requestMap.delete(userId)
+    return line.client.pushMessage(userId, [
+      { type: 'text', text: `จังหวัด ${province}` },
+      { type: 'text', text: reply }
+    ])
+  }
 }

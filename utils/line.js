@@ -1,5 +1,3 @@
-require('dotenv').config()
-
 const { LINE_CHANNEL_ACCESS_TOKEN, LINE_CHANNEL_SECRET } = process.env
 
 if (!LINE_CHANNEL_ACCESS_TOKEN || !LINE_CHANNEL_SECRET) {
@@ -17,4 +15,4 @@ const lineConfig = {
 const client = new line.Client(lineConfig)
 const middleware = line.middleware(lineConfig)
 
-module.exports = [client, middleware]
+module.exports = { client, middleware }
