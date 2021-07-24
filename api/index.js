@@ -1,4 +1,4 @@
-const mode      = process.env.NODE_ENV
+const mode = 'production'
 const port      = process.env.PORT || 3000
 
 const https     = require('https')
@@ -8,7 +8,8 @@ const app       = require('express')()
 const line      = require('../utils/line')
 const provinces = require('../utils/provinces')
 
-const Bed       = require('../commands/bed')
+const Bed = require('../commands/bed')
+const Case = require('../commands/cases')
 
 app.post('/api/webhook', line.middleware, (req, res) => {
   Promise
@@ -31,6 +32,8 @@ const handleEvent = (event) => {
 
   // Open command ticket
   if (message == 'หาเตียง') return Bed.request(userId, replyToken)
+
+  if (message == 'สถิติ') return Case.request(replyToken)
 
   const province = provinces.find(message)
 
