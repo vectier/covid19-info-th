@@ -14,27 +14,22 @@ exports.removeRequest = (userId) => requestMap.delete(userId)
 exports.handle = (userId, message, replyToken) => {
   if (message == thisCommand) {
     !this.hasRequested(userId) && this.openRequest(userId)
-    console.log('bed request')
-    line.client.replyMessage(replyToken, { type: 'text', text: 'กรุณากรอกจังหวัดที่คุณอยู่' }).then(console.log)
-    return
+    return line.client.replyMessage(replyToken, { type: 'text', text: 'กรุณากรอกจังหวัดที่คุณอยู่' })
   }
 
   if (CommandHandler.isInterrupt(message, thisCommand)) {
-    console.log('bed interrupted')
     return this.removeRequest(userId)
   }
 
   if (this.hasRequested(userId)) {
-    console.log('bed result')
     const province = provinces.find(message)
     const data = bed[province].join('\n\n')
     const reply = '> คุณสามารถติดต่อได้ที่ <\n\n'.concat(data)
     
     this.removeRequest(userId)
-    line.client.pushMessage(userId, [
+    return line.client.pushMessage(userId, [
       { type: 'text', text: `จังหวัด ${province}` },
       { type: 'text', text: reply }
-    ]).then(console.log)
-    return
+    ])
   }
 }
