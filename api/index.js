@@ -42,6 +42,8 @@ const handleEvent = (event) => {
 
   const province = provinces.find(message)
 
+  console.log('predict', province)
+
   // Command execution
   Bed.handler(userId, province)
 }

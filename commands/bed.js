@@ -21,6 +21,8 @@ exports.handler = (userId, province) => {
     const data = find(province).join('\n\n')
     const reply = '> คุณสามารถติดต่อได้ที่ <\n\n'.concat(data)
 
+    console.log('handle')
+
     this.removeRequest(userId)
     return line.client.pushMessage(userId, [
       { type: 'text', text: `จังหวัด ${province}` },
