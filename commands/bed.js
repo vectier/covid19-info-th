@@ -15,7 +15,8 @@ exports.handle = (userId, message, replyToken) => {
   if (message == thisCommand) {
     !this.hasRequested(userId) && this.openRequest(userId)
     console.log('bed request')
-    return line.client.replyMessage(replyToken, { type: 'text', text: 'กรุณากรอกจังหวัดที่คุณอยู่' })
+    line.client.replyMessage(replyToken, { type: 'text', text: 'กรุณากรอกจังหวัดที่คุณอยู่' }).then(console.log)
+    return
   }
 
   if (CommandHandler.isInterrupt(message, thisCommand)) {
@@ -30,9 +31,10 @@ exports.handle = (userId, message, replyToken) => {
     const reply = '> คุณสามารถติดต่อได้ที่ <\n\n'.concat(data)
     
     this.removeRequest(userId)
-    return line.client.pushMessage(userId, [
+    line.client.pushMessage(userId, [
       { type: 'text', text: `จังหวัด ${province}` },
       { type: 'text', text: reply }
-    ])
+    ]).then(console.log)
+    return
   }
 }
