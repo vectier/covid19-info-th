@@ -32,7 +32,11 @@ const handleEvent = (event) => {
 
   // Open command ticket
   if (message == 'หาเตียง') return Bed.request(userId, replyToken)
-  if (message == 'สถิติ') return Case.request(replyToken)
+  
+  if (message == 'สถิติ') {
+    if (Bed.hasRequested(userId)) Bed.removeRequest(userId)
+    return Case.request(replyToken)
+  }
 
   const province = provinces.find(message)
 
