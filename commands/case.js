@@ -1,11 +1,15 @@
 const cases = require('../utils/cases')
 const line = require('../utils/line')
 
+const thisCommand = 'สถิติ'
+
 const numberWithCommas = (number) => {
   return parseInt(number).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-exports.request = async (replyToken) => {
+exports.handle = async (userId, message, replyToken) => {
+  if (message != thisCommand) return
+
   const theCase = await cases.getLatestCase()
 
   const [year, month, day] = theCase.date.split('-')
@@ -16,7 +20,7 @@ exports.request = async (replyToken) => {
     day: 'numeric'
   })
 
-  const message = [
+  const response = [
     `ข้อมูลสถิติโควิด-19\nประจำวันที่ ${thaiFormattedDate}`,
     `ตรวจใหม่: ${numberWithCommas(theCase.tested)} คน`,
     `ติดใหม่: ${numberWithCommas(theCase.cases)} คน`,
@@ -24,5 +28,5 @@ exports.request = async (replyToken) => {
     `🏥 ยังรักษาอยู่: ${numberWithCommas(theCase.hospitalized)} คน\n🏠 หายป่วยกลับบ้าน: ${numberWithCommas(theCase.recovered)} คน`,
   ].join('\n\n')
 
-  return line.client.replyMessage(replyToken, { type: 'text', text: message })
+  return line.client.replyMessage(replyToken, { type: 'text', text: response })
 }
