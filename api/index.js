@@ -4,12 +4,9 @@ const port      = process.env.PORT || 3000
 const https     = require('https')
 const fs        = require('fs')
 const app       = require('express')()
-
 const line      = require('../utils/line')
-const provinces = require('../utils/provinces')
 
-const Bed       = require('../commands/bed')
-const Case      = require('../commands/case')
+const CommandHandler  = require('../commands/handler')
 
 app.post('/api/webhook', line.middleware, (req, res) => {
   Promise
@@ -25,23 +22,8 @@ const handleEvent = (event) => {
   if (event.type !== 'message' || event.message.type !== 'text') {
     return Promise.resolve(null)
   }
-
-  const replyToken = event.replyToken
-  const message = event.message.text
-  const userId = event.source.userId
-
-  // Open command ticket
-  if (message == 'หาเตียง') return Bed.request(userId, replyToken)
   
-  if (message == 'สถิติ') {
-    if (Bed.hasRequested(userId)) Bed.removeRequest(userId)
-    return Case.request(replyToken)
-  }
-
-  const province = provinces.find(message)
-
-  // Command execution
-  Bed.handler(userId, province)
+  CommandHandler.handle(event)
 }
 
 app.all('*', (req, res) => {

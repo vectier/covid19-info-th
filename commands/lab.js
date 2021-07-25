@@ -1,3 +1,7 @@
+// TODO: refactor like bed.js
+
+// THIS COMMAND HAS DISABLED
+
 const fetch = require('node-fetch')
 
 const cache = new Map()
