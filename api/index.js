@@ -23,7 +23,7 @@ const handleEvent = (event) => {
     return Promise.resolve(null)
   }
   
-  CommandHandler.handle(event)
+  return CommandHandler.handle(event)
 }
 
 app.all('*', (req, res) => {
