@@ -9,11 +9,15 @@ exports.isInterrupt = (input, currentCommand) => {
     .includes(input)
 }
 
-exports.handle = (event) => {
+exports.handle = async (event) => {
   const userId = event.source.userId
   const message = event.message.text
   const replyToken = event.replyToken
 
-  BedCommand.handle(userId, message, replyToken)
-  CaseCommand.handle(userId, message, replyToken)
+  const response = await Promise.all([
+    BedCommand.handle(userId, message, replyToken),
+    CaseCommand.handle(userId, message, replyToken)
+  ])
+
+  return response
 }
