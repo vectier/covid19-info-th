@@ -12,8 +12,8 @@ exports.handle = async (userId, message, replyToken) => {
 
   const theCase = await cases.getLatestCase()
 
-  const [year, month, day] = theCase.date.split('-')
-  const date = new Date(year, month, day)
+  const [year, month, day] = theCase.date.split('-').map(Number)
+  const date = new Date(year, month - 1, day)
   const thaiFormattedDate = date.toLocaleDateString('th-TH', {
     year: 'numeric',
     month: 'long',
